@@ -15,123 +15,119 @@
 <div id="cGlow"></div>
 <div id="cDot"></div>
 
-<!-- ── ACCESS DENIED ── -->
-<div id="screenBanned" style="display:none" class="fullscreen-ban">
+<!-- ACCESS DENIED -->
+<div id="screenBanned" style="display:none" class="ban-screen">
   <div class="ban-inner">
     <div class="ban-icon">🚫</div>
     <div class="ban-title" data-text="ACCESS DENIED">ACCESS DENIED</div>
-    <p class="ban-sub">Your IP address has been permanently blocked from this system</p>
-    <div class="ban-ip" id="banIpDisplay"></div>
-    <div class="ban-code">SYSTEM ERROR :: IP_FORBIDDEN_0xBAN</div>
+    <p class="ban-sub">Your IP address has been permanently blocked</p>
+    <div class="ban-ip" id="banIpShow"></div>
+    <div class="ban-code">SYSTEM :: IP_FORBIDDEN_0xBAN</div>
   </div>
 </div>
 
-<!-- ── LOADING SCREEN ── -->
+<!-- LOADING -->
 <div id="screenLoad" class="load-screen">
   <canvas id="loadCanvas"></canvas>
   <div class="load-center">
     <div class="load-logo"><span class="ox">OX</span><span class="yx">YX</span></div>
     <div class="load-store">S T O R E</div>
-    <div class="load-bar-wrap"><div class="load-bar" id="loadBar"></div></div>
+    <div class="load-bar-bg"><div class="load-bar" id="loadBar"></div></div>
     <div class="load-msg" id="loadMsg">INITIALIZING SYSTEM...</div>
   </div>
 </div>
 
-<!-- ── AUTH SCREEN ── -->
+<!-- AUTH SCREEN -->
 <div id="screenAuth" style="display:none" class="auth-screen">
   <canvas id="authCanvas" class="auth-canvas"></canvas>
-
-  <!-- LEFT BRAND PANEL -->
   <div class="auth-left">
-    <div class="auth-brand-content">
-      <div class="brand-hex-wrap">
-        <svg viewBox="0 0 120 120" class="brand-hex-svg">
-          <defs><linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00ffd5"/><stop offset="100%" stop-color="#b06dff"/></linearGradient></defs>
-          <polygon points="60,5 112,32 112,88 60,115 8,88 8,32" fill="none" stroke="url(#hg)" stroke-width="1.5" class="hex-anim"/>
-        </svg>
+    <div class="auth-brand">
+      <div class="brand-hex">
+        <svg viewBox="0 0 120 120"><defs><linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00ffd5"/><stop offset="100%" stop-color="#b06dff"/></linearGradient></defs>
+        <polygon points="60,5 112,32 112,88 60,115 8,88 8,32" fill="none" stroke="url(#hg)" stroke-width="1.5" class="hex-anim"/></svg>
         <div class="brand-hex-inner"><span class="ox">OX</span><span class="yx">YX</span></div>
       </div>
       <h1 class="brand-title">OXYX<span>STORE</span></h1>
-      <p class="brand-tagline">ELITE BUILD MARKETPLACE</p>
-      <div class="brand-features">
-        <div class="bf-row"><span class="bf-dot"></span><span>Upload & sell your builds</span></div>
-        <div class="bf-row"><span class="bf-dot"></span><span>Premium & free builds available</span></div>
-        <div class="bf-row"><span class="bf-dot"></span><span>.build format with photo preview</span></div>
-        <div class="bf-row"><span class="bf-dot"></span><span>Multi-layer security system</span></div>
+      <p class="brand-tag">ELITE BUILD MARKETPLACE</p>
+      <div class="brand-feats">
+        <div class="bf"><span class="bf-dot"></span>Upload & sell your builds</div>
+        <div class="bf"><span class="bf-dot"></span>Premium & free builds available</div>
+        <div class="bf"><span class="bf-dot"></span>.build format with photo preview</div>
+        <div class="bf"><span class="bf-dot"></span>Multi-layer security system</div>
       </div>
       <div class="brand-stats">
-        <div class="bs-item"><div class="bs-n" id="authStatB">0</div><div class="bs-l">BUILDS</div></div>
-        <div class="bs-sep"></div>
-        <div class="bs-item"><div class="bs-n" id="authStatU">0</div><div class="bs-l">MEMBERS</div></div>
-        <div class="bs-sep"></div>
-        <div class="bs-item"><div class="bs-n" style="color:var(--fr)">99%</div><div class="bs-l">TRUSTED</div></div>
+        <div class="bst"><div class="bst-n" id="authStatB">0</div><div class="bst-l">BUILDS</div></div>
+        <div class="bst-sep"></div>
+        <div class="bst"><div class="bst-n" id="authStatU">0</div><div class="bst-l">MEMBERS</div></div>
+        <div class="bst-sep"></div>
+        <div class="bst"><div class="bst-n" style="color:var(--fr)">99%</div><div class="bst-l">TRUSTED</div></div>
       </div>
     </div>
   </div>
-
-  <!-- RIGHT FORM PANEL -->
   <div class="auth-right">
-    <div class="auth-card" id="authCard">
+    <div class="auth-card">
       <div class="auth-card-border"></div>
-      <div class="auth-card-glow-top"></div>
-
+      <div class="auth-card-glow"></div>
       <div class="auth-head">
         <div class="auth-logo"><span class="ox">OX</span><span class="yx">YX</span></div>
-        <p class="auth-sub-text">Sign in to your account</p>
+        <p class="auth-sub">Sign in to your account</p>
       </div>
-
-      <div class="tab-row">
+      <div class="auth-tabs-row">
         <button class="atab active" id="tabL" onclick="switchTab('login')">LOGIN</button>
         <button class="atab" id="tabR" onclick="switchTab('register')">REGISTER</button>
       </div>
-
       <!-- LOGIN -->
       <div id="fLogin" class="aform active">
-        <div class="fg"><label>USERNAME</label><div class="ib"><span>⬡</span><input id="lU" type="text" placeholder="enter username" autocomplete="off" spellcheck="false"></div></div>
-        <div class="fg"><label>PASSWORD</label><div class="ib"><span>◎</span><input id="lP" type="password" placeholder="••••••••••"><button class="eye-btn" onclick="toggleEye('lP',this)">👁</button></div></div>
+        <div class="fg"><label>USERNAME</label><div class="ib"><span>⬡</span><input id="lU" type="text" placeholder="your username" autocomplete="off"></div></div>
+        <div class="fg"><label>PASSWORD</label><div class="ib"><span>◎</span><input id="lP" type="password" placeholder="••••••••••"><button class="eye" onclick="toggleEye('lP',this)">👁</button></div></div>
         <div class="aerr" id="lErr"></div>
-        <button class="submit-btn" onclick="doLogin()"><span>CONNECT</span><span class="btn-arrow">→</span><div class="btn-shine"></div></button>
-        <p class="auth-switch-txt">No account? <a onclick="switchTab('register')">Register here</a></p>
+        <button class="submit-btn" onclick="doLogin()"><span>CONNECT</span><span>→</span><div class="btn-shine"></div></button>
+        <p class="auth-sw">No account? <a onclick="switchTab('register')">Register</a></p>
       </div>
-
       <!-- REGISTER -->
       <div id="fReg" class="aform">
-        <div class="fg"><label>USERNAME</label><div class="ib"><span>⬡</span><input id="rU" type="text" placeholder="create a username" autocomplete="off" spellcheck="false"></div></div>
+        <div class="fg"><label>USERNAME</label><div class="ib"><span>⬡</span><input id="rU" type="text" placeholder="create username" autocomplete="off"></div></div>
         <div class="fg"><label>EMAIL</label><div class="ib"><span>◐</span><input id="rE" type="email" placeholder="your@email.com"></div></div>
-        <div class="fg"><label>PASSWORD</label><div class="ib"><span>◎</span><input id="rP" type="password" placeholder="min 6 characters"><button class="eye-btn" onclick="toggleEye('rP',this)">👁</button></div></div>
-        <div class="fg"><label>STAFF CODE <small>(optional — for staff access)</small></label><div class="ib"><span>◈</span><input id="rC" type="text" placeholder="enter staff code if you have one"></div></div>
+        <div class="fg"><label>PASSWORD</label><div class="ib"><span>◎</span><input id="rP" type="password" placeholder="min 6 chars"><button class="eye" onclick="toggleEye('rP',this)">👁</button></div></div>
+        <div class="fg"><label>STAFF CODE <small>(optional)</small></label><div class="ib"><span>◈</span><input id="rC" type="text" placeholder="staff code if you have one"></div></div>
         <div class="aerr" id="rErr"></div>
-        <button class="submit-btn" onclick="doRegister()"><span>CREATE ACCOUNT</span><span class="btn-arrow">→</span><div class="btn-shine"></div></button>
-        <p class="auth-switch-txt">Have an account? <a onclick="switchTab('login')">Login</a></p>
+        <button class="submit-btn" onclick="doRegister()"><span>CREATE ACCOUNT</span><span>→</span><div class="btn-shine"></div></button>
+        <p class="auth-sw">Have account? <a onclick="switchTab('login')">Login</a></p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════ MAIN APP ══════════ -->
+<!-- MAIN APP -->
 <div id="mainApp" style="display:none">
 
 <!-- NAVBAR -->
-<nav class="navbar" id="navbar">
-  <div class="nb-logo" onclick="goTo('home')"><span class="ox">OX</span><span class="yx">YX</span><span class="nb-store-txt">STORE</span></div>
+<nav class="navbar">
+  <div class="nb-logo" onclick="goTo('home')"><span class="ox">OX</span><span class="yx">YX</span><span class="nb-store">STORE</span></div>
   <div class="nb-links" id="nbLinks">
     <a class="nl active" id="nl-home"    onclick="goTo('home')">HOME</a>
     <a class="nl"        id="nl-store"   onclick="goTo('store')">ALL BUILDS</a>
     <a class="nl"        id="nl-premium" onclick="goTo('premium')">PREMIUM</a>
     <a class="nl"        id="nl-free"    onclick="goTo('free')">FREE</a>
-    <a class="nl nl-upload" id="nl-submit" onclick="goTo('submit')">+ UPLOAD BUILD</a>
-    <a class="nl nl-admin"  id="nl-admin"  onclick="goTo('admin')" style="display:none">⚙ PANEL</a>
+    <a class="nl nl-up"  id="nl-submit"  onclick="goTo('submit')">+ UPLOAD</a>
+    <a class="nl nl-adm" id="nl-admin"   onclick="goTo('admin')" style="display:none">⚙ PANEL</a>
   </div>
   <div class="nb-right">
-    <button class="nb-mob-btn" onclick="toggleNav()">☰</button>
-    <div class="nb-user-info">
-      <div class="nb-avatar" id="nbAv">O</div>
-      <div class="nb-user-text">
-        <div class="nb-username" id="nbNm">—</div>
-        <div class="nb-role-chip" id="nbRc">USER</div>
+    <!-- LIVE COUNTER -->
+    <div class="nb-live">
+      <div class="nb-live-dot"></div>
+      <div class="nb-live-num" id="liveCountNum">0</div>
+      <div class="nb-live-txt">ONLINE</div>
+    </div>
+    <button class="nb-mob" onclick="toggleNav()">☰</button>
+    <div class="nb-user">
+      <div class="nb-av" id="nbAv">O</div>
+      <div class="nb-uinfo">
+        <div class="nb-uname" id="nbNm">—</div>
+        <div class="nb-chip" id="nbRc">USER</div>
       </div>
     </div>
-    <button class="btn-logout" onclick="doLogout()">⏻ LOGOUT</button>
+    <button class="btn-logout" onclick="doLogout()">⏻</button>
   </div>
 </nav>
 
@@ -139,82 +135,61 @@
 <section id="sec-home" class="sec active">
   <div class="hero">
     <div class="hero-left">
-      <div class="hero-eyebrow"><span class="ey-dot"></span>OXYX STORE — BUILD MARKETPLACE</div>
+      <div class="hero-eye"><span class="eye-dot"></span>OXYX STORE — BUILD MARKETPLACE</div>
       <h1 class="hero-h1">
-        <span class="h1-line" style="--d:0s">THE MOST</span>
-        <span class="h1-line h1-accent" style="--d:.08s">ELITE BUILD</span>
-        <span class="h1-line" style="--d:.16s">MARKETPLACE</span>
+        <span class="h1r" style="--d:0s">THE MOST</span>
+        <span class="h1r h1a" style="--d:.08s">ELITE BUILD</span>
+        <span class="h1r" style="--d:.16s">MARKETPLACE</span>
       </h1>
-      <p class="hero-desc">Buy, sell and upload <em>premium builds</em> & <em>free builds</em>. Upload your build files in <em>.build format</em> with photo previews.</p>
+      <p class="hero-p">Buy, sell and upload <em>premium builds</em> & <em>free builds</em>. Upload your <em>.build files</em> with photo previews.</p>
       <div class="hero-btns">
-        <button class="hbtn hbtn-primary" onclick="goTo('store')">EXPLORE BUILDS</button>
-        <button class="hbtn hbtn-ghost" onclick="goTo('submit')">+ UPLOAD BUILD</button>
+        <button class="hbtn hbtn-p" onclick="goTo('store')">EXPLORE BUILDS</button>
+        <button class="hbtn hbtn-g" onclick="goTo('submit')">+ UPLOAD BUILD</button>
       </div>
       <div class="hero-stats">
-        <div class="hs"><div class="hs-n" id="hsB">0</div><div class="hs-l">BUILDS</div></div>
-        <div class="hs-sep"></div>
-        <div class="hs"><div class="hs-n" id="hsP">0</div><div class="hs-l">PREMIUM</div></div>
-        <div class="hs-sep"></div>
-        <div class="hs"><div class="hs-n" id="hsF">0</div><div class="hs-l">FREE</div></div>
-        <div class="hs-sep"></div>
-        <div class="hs"><div class="hs-n" id="hsU">0</div><div class="hs-l">MEMBERS</div></div>
+        <div class="hst"><div class="hst-n" id="hsB">0</div><div class="hst-l">BUILDS</div></div>
+        <div class="hst-sep"></div>
+        <div class="hst"><div class="hst-n" id="hsP">0</div><div class="hst-l">PREMIUM</div></div>
+        <div class="hst-sep"></div>
+        <div class="hst"><div class="hst-n" id="hsF">0</div><div class="hst-l">FREE</div></div>
+        <div class="hst-sep"></div>
+        <div class="hst"><div class="hst-n" id="hsU">0</div><div class="hst-l">MEMBERS</div></div>
       </div>
     </div>
     <div class="hero-right">
-      <div class="orb-3d" id="orb3d">
-        <div class="orb-ring or1"></div>
-        <div class="orb-ring or2"></div>
-        <div class="orb-ring or3"></div>
+      <div class="orb">
+        <div class="orb-r r1"></div><div class="orb-r r2"></div><div class="orb-r r3"></div>
         <div class="orb-core">
-          <div class="oc-logo"><span class="ox">OX</span><span class="yx">YX</span></div>
-          <div class="oc-sub">STORE</div>
+          <div class="orb-logo"><span class="ox">OX</span><span class="yx">YX</span></div>
+          <div class="orb-sub">STORE</div>
         </div>
-        <div class="orb-sat os1"><div class="os-dot" style="background:var(--a)"></div></div>
-        <div class="orb-sat os2"><div class="os-dot" style="background:var(--v)"></div></div>
-        <div class="orb-sat os3"><div class="os-dot" style="background:var(--r)"></div></div>
+        <div class="orb-sat s1"><div class="sat-dot" style="background:var(--a)"></div></div>
+        <div class="orb-sat s2"><div class="sat-dot" style="background:var(--v)"></div></div>
+        <div class="orb-sat s3"><div class="sat-dot" style="background:var(--r)"></div></div>
       </div>
     </div>
   </div>
-
-  <!-- FEATURED -->
-  <div class="home-section">
-    <div class="hs-header">
-      <div class="hs-title-row"><h2 class="hs-title">FEATURED BUILDS</h2><div class="hs-line"></div></div>
-      <button class="btn-see-all" onclick="goTo('store')">VIEW ALL →</button>
-    </div>
+  <div class="home-sec">
+    <div class="hs-hdr"><div class="hs-tw"><h2 class="hs-title">FEATURED BUILDS</h2><div class="hs-line"></div></div><button class="btn-all" onclick="goTo('store')">VIEW ALL →</button></div>
     <div class="builds-grid" id="featGrid"></div>
   </div>
-
-  <!-- CATEGORIES -->
-  <div class="home-section">
-    <div class="hs-header">
-      <div class="hs-title-row"><h2 class="hs-title">CATEGORIES</h2><div class="hs-line"></div></div>
-    </div>
+  <div class="home-sec">
+    <div class="hs-hdr"><div class="hs-tw"><h2 class="hs-title">CATEGORIES</h2><div class="hs-line"></div></div></div>
     <div class="cat-grid">
-      <div class="cat-card cat-premium" onclick="goTo('premium')">
-        <div class="cc-icon">♛</div><div class="cc-name">Premium Builds</div>
-        <div class="cc-count" id="ccPrem">0 builds</div><div class="cc-arr">→</div>
-      </div>
-      <div class="cat-card cat-free" onclick="goTo('free')">
-        <div class="cc-icon">✦</div><div class="cc-name">Free Builds</div>
-        <div class="cc-count" id="ccFree">0 builds</div><div class="cc-arr">→</div>
-      </div>
-      <div class="cat-card cat-upload" onclick="goTo('submit')">
-        <div class="cc-icon">↑</div><div class="cc-name">Upload Your Build</div>
-        <div class="cc-count">Share & earn</div><div class="cc-arr">→</div>
-      </div>
+      <div class="cat cc-prem" onclick="goTo('premium')"><div class="cc-ico">♛</div><div class="cc-nm">Premium Builds</div><div class="cc-ct" id="ccP">0 builds</div><div class="cc-arr">→</div></div>
+      <div class="cat cc-free" onclick="goTo('free')"><div class="cc-ico">✦</div><div class="cc-nm">Free Builds</div><div class="cc-ct" id="ccF">0 builds</div><div class="cc-arr">→</div></div>
+      <div class="cat cc-up" onclick="goTo('submit')"><div class="cc-ico">↑</div><div class="cc-nm">Upload Build</div><div class="cc-ct">Share & earn</div><div class="cc-arr">→</div></div>
     </div>
   </div>
 </section>
 
 <!-- ALL BUILDS -->
 <section id="sec-store" class="sec">
-  <div class="sec-head">
-    <h2 class="sec-title">ALL BUILDS</h2>
-    <div class="filter-bar">
-      <button class="flt active" onclick="applyFilter('all',this,'storeGrid')">ALL</button>
-      <button class="flt" onclick="applyFilter('premium',this,'storeGrid')">PREMIUM</button>
-      <button class="flt" onclick="applyFilter('free',this,'storeGrid')">FREE</button>
+  <div class="sec-hd"><h2 class="sec-title">ALL BUILDS</h2>
+    <div class="flt-bar">
+      <button class="flt active" onclick="applyFlt('all',this,'storeGrid')">ALL</button>
+      <button class="flt" onclick="applyFlt('premium',this,'storeGrid')">PREMIUM</button>
+      <button class="flt" onclick="applyFlt('free',this,'storeGrid')">FREE</button>
     </div>
   </div>
   <div class="builds-grid" id="storeGrid"></div>
@@ -222,197 +197,206 @@
 
 <!-- PREMIUM -->
 <section id="sec-premium" class="sec">
-  <div class="sec-head">
-    <h2 class="sec-title">PREMIUM BUILDS <span style="color:var(--gold)">♛</span></h2>
-    <p class="sec-sub">Exclusive builds with highest quality & full support</p>
-  </div>
+  <div class="sec-hd"><h2 class="sec-title">PREMIUM BUILDS <span style="color:var(--gold)">♛</span></h2><p class="sec-sub">Exclusive builds, highest quality</p></div>
   <div class="builds-grid" id="premGrid"></div>
 </section>
 
 <!-- FREE -->
 <section id="sec-free" class="sec">
-  <div class="sec-head">
-    <h2 class="sec-title">FREE BUILDS <span style="color:var(--fr)">✦</span></h2>
-    <p class="sec-sub">High quality builds, completely free to use</p>
-  </div>
+  <div class="sec-hd"><h2 class="sec-title">FREE BUILDS <span style="color:var(--fr)">✦</span></h2><p class="sec-sub">High quality, completely free</p></div>
   <div class="builds-grid" id="freeGrid"></div>
 </section>
 
-<!-- UPLOAD BUILD -->
+<!-- UPLOAD -->
 <section id="sec-submit" class="sec">
-  <div class="sec-head">
-    <h2 class="sec-title">↑ UPLOAD BUILD</h2>
-    <p class="sec-sub">Submit your build — will be reviewed by the owner before going live</p>
-  </div>
+  <div class="sec-hd"><h2 class="sec-title">↑ UPLOAD BUILD</h2><p class="sec-sub">Submit your build — owner review before going live</p></div>
   <div class="upload-layout">
-    <div class="upload-form-card">
-      <div class="ufc-label">BUILD SUBMISSION FORM</div>
-      <div class="ufc-note">Upload .build file + preview photo. Pending owner approval.</div>
-
-      <!-- FILE UPLOADS -->
+    <div class="upload-card">
+      <div class="uc-label">BUILD SUBMISSION FORM</div>
+      <div class="uc-note">Upload .build file + preview photo. Pending owner approval.</div>
       <div class="upload-files-row">
-        <div class="file-drop-zone" id="buildDropZone" onclick="document.getElementById('buildFileInput').click()">
-          <input type="file" id="buildFileInput" accept=".build" style="display:none" onchange="handleBuildFile(this)">
-          <div class="fdz-icon">📦</div>
+        <div class="fdz" id="buildDZ" onclick="document.getElementById('buildFI').click()">
+          <input type="file" id="buildFI" accept=".build" style="display:none" onchange="onBuildFile(this)">
+          <div class="fdz-ico">📦</div>
           <div class="fdz-main">Drop .build file here</div>
-          <div class="fdz-sub">or click to browse — .build only</div>
-          <div class="fdz-selected" id="buildFileName"></div>
+          <div class="fdz-sub">.build format only</div>
+          <div class="fdz-sel" id="buildFName"></div>
         </div>
-        <div class="file-drop-zone photo-zone" id="photoDropZone" onclick="document.getElementById('photoFileInput').click()">
-          <input type="file" id="photoFileInput" accept="image/*" style="display:none" onchange="handlePhotoFile(this)">
-          <div id="photoPreviewWrap" class="photo-preview-wrap" style="display:none">
-            <img id="photoPreviewImg" class="photo-preview-img" src="" alt="preview">
-            <div class="photo-preview-overlay">Change Photo</div>
-          </div>
-          <div id="photoPlaceholder">
-            <div class="fdz-icon">🖼</div>
-            <div class="fdz-main">Build Preview Photo</div>
-            <div class="fdz-sub">JPG, PNG, WEBP — max 5MB</div>
-          </div>
+        <div class="fdz photo-fdz" id="photoDZ" onclick="document.getElementById('photoFI').click()">
+          <input type="file" id="photoFI" accept="image/*" style="display:none" onchange="onPhotoFile(this)">
+          <div id="photoPrev" style="display:none" class="photo-prev-wrap"><img id="photoPrevImg" class="photo-prev-img"><div class="photo-prev-ov">Change Photo</div></div>
+          <div id="photoHolder"><div class="fdz-ico">🖼</div><div class="fdz-main">Preview Photo</div><div class="fdz-sub">JPG/PNG max 5MB</div></div>
         </div>
       </div>
-
       <div class="uf-grid">
         <div class="fg"><label>BUILD NAME <span class="req">*</span></label><div class="ib"><input id="sbN" placeholder="your build name"></div></div>
-        <div class="fg"><label>TYPE <span class="req">*</span></label><div class="ib"><select id="sbT"><option value="free">Free (No charge)</option><option value="premium">Premium (Paid)</option></select></div></div>
-        <div class="fg"><label>PRICE (IDR) — set 0 if free</label><div class="ib"><input type="number" id="sbP" placeholder="0"></div></div>
-        <div class="fg"><label>CATEGORY / TAG</label><div class="ib"><input id="sbC" placeholder="Dashboard, Portfolio, Blog..."></div></div>
-        <div class="fg full"><label>DESCRIPTION <span class="req">*</span></label><div class="ib"><textarea id="sbD" rows="3" placeholder="Describe features, tech stack, and what makes your build special..."></textarea></div></div>
-        <div class="fg full"><label>DEMO / PREVIEW LINK <span class="req">*</span></label><div class="ib"><input id="sbL" placeholder="https://your-demo.com"></div></div>
-        <div class="fg full"><label>SELLER CONTACT (WhatsApp / Discord)</label><div class="ib"><input id="sbK" placeholder="wa.me/... or Discord: user#0000"></div></div>
+        <div class="fg"><label>TYPE <span class="req">*</span></label><div class="ib"><select id="sbT"><option value="free">Free</option><option value="premium">Premium</option></select></div></div>
+        <div class="fg"><label>PRICE (IDR)</label><div class="ib"><input type="number" id="sbP" placeholder="0"></div></div>
+        <div class="fg"><label>CATEGORY</label><div class="ib"><input id="sbC" placeholder="Dashboard, Portfolio..."></div></div>
+        <div class="fg full"><label>DESCRIPTION <span class="req">*</span></label><div class="ib"><textarea id="sbD" rows="3" placeholder="Describe features, tech stack..."></textarea></div></div>
+        <div class="fg full"><label>DEMO LINK <span class="req">*</span></label><div class="ib"><input id="sbL" placeholder="https://your-demo.com"></div></div>
+        <div class="fg full"><label>SELLER CONTACT</label><div class="ib"><input id="sbK" placeholder="wa.me/... or Discord: user#0000"></div></div>
       </div>
-      <div class="tos-row">
-        <label class="tos-label"><input type="checkbox" id="sbTos"><span>I confirm this is my original work and does not violate any copyright</span></label>
-      </div>
+      <div class="tos-row"><label class="tos-lbl"><input type="checkbox" id="sbTos"><span>I confirm this is my original work</span></label></div>
       <button class="submit-build-btn" onclick="submitBuild()"><span>↑ SUBMIT BUILD</span><div class="btn-shine"></div></button>
     </div>
-
-    <div class="upload-sidebar">
-      <div class="usb-card">
-        <div class="usb-title">📋 GUIDELINES</div>
+    <div class="upload-side">
+      <div class="usb"><div class="usb-title">📋 GUIDELINES</div>
         <div class="usb-list">
           <div class="usb-item"><span>1</span>Upload .build file (required)</div>
           <div class="usb-item"><span>2</span>Add a preview photo</div>
           <div class="usb-item"><span>3</span>Fill all required fields</div>
           <div class="usb-item"><span>4</span>Review within 24 hours</div>
-          <div class="usb-item"><span>5</span>Violating builds will be removed</div>
-          <div class="usb-item"><span>6</span>Premium: 20% revenue share</div>
+          <div class="usb-item"><span>5</span>Premium: 20% revenue share</div>
         </div>
       </div>
-      <div class="usb-card">
-        <div class="usb-title">⏳ YOUR PENDING BUILDS</div>
-        <div id="myPendingList" class="usb-pending"></div>
-      </div>
+      <div class="usb"><div class="usb-title">⏳ YOUR PENDING</div><div id="myPendList" class="usb-pend"></div></div>
     </div>
   </div>
 </section>
 
 <!-- ADMIN PANEL -->
 <section id="sec-admin" class="sec">
-  <div class="admin-wrap">
-    <div class="admin-top">
+  <div class="adm-wrap">
+    <!-- Header -->
+    <div class="adm-phdr">
       <div>
-        <h2 class="sec-title">CONTROL PANEL</h2>
-        <p class="sec-sub" id="adminSubText">Owner — Full System Access</p>
+        <div class="adm-title">CONTROL PANEL</div>
+        <div class="adm-sub" id="adminSubTxt">Owner — Full System Access · <span id="adminClock" style="color:var(--a)"></span></div>
       </div>
-      <div class="admin-role-badge" id="adminRoleBadge">OWNER</div>
+      <div class="adm-role-pill" id="adminRoleBadge">OWNER</div>
     </div>
-    <div class="admin-tabs" id="adminTabsNav"></div>
-
-    <!-- BUILDS TAB -->
-    <div class="atab active" id="atab-builds">
-      <div class="panel-box" id="addBuildBox" style="display:none">
-        <div class="pb-title">+ ADD BUILD</div>
-        <div class="pb-grid">
-          <div class="fg"><label>BUILD NAME</label><div class="ib"><input id="aN" placeholder="build name"></div></div>
-          <div class="fg"><label>TYPE</label><div class="ib"><select id="aT"><option value="premium">Premium</option><option value="free">Free</option></select></div></div>
-          <div class="fg"><label>PRICE (IDR)</label><div class="ib"><input type="number" id="aP" placeholder="0"></div></div>
-          <div class="fg"><label>CATEGORY</label><div class="ib"><input id="aC" placeholder="Dashboard..."></div></div>
-          <div class="fg full"><label>DESCRIPTION</label><div class="ib"><textarea id="aD" rows="2" placeholder="description..."></textarea></div></div>
-          <div class="fg full"><label>LINK</label><div class="ib"><input id="aL" placeholder="https://..."></div></div>
-        </div>
-        <button class="pb-btn" onclick="adminAddBuild()">+ ADD BUILD</button>
-      </div>
-
-      <div class="panel-box" id="pendingBox" style="display:none">
-        <div class="pb-title">⏳ PENDING REVIEW <span class="pending-badge" id="pendBadge">0</span></div>
-        <div class="panel-list" id="pendingList"></div>
-      </div>
-
-      <div class="panel-box">
-        <div class="pb-title">📦 ALL BUILDS</div>
-        <div class="panel-list" id="buildPanelList"></div>
-      </div>
+    <!-- Stat Cards -->
+    <div class="adm-cards" id="adminStatCards">
+      <div class="asc asc-online"><span class="asc-ico">🟢</span><div class="asc-n" id="asc-online">0</div><div class="asc-l">ONLINE NOW</div><div class="asc-bar"></div></div>
+      <div class="asc asc-builds"><span class="asc-ico">📦</span><div class="asc-n" id="asc-builds">0</div><div class="asc-l">TOTAL BUILDS</div><div class="asc-bar"></div></div>
+      <div class="asc asc-premium"><span class="asc-ico">♛</span><div class="asc-n" id="asc-premium">0</div><div class="asc-l">PREMIUM</div><div class="asc-bar"></div></div>
+      <div class="asc asc-members"><span class="asc-ico">👥</span><div class="asc-n" id="asc-members">0</div><div class="asc-l">MEMBERS</div><div class="asc-bar"></div></div>
+      <div class="asc asc-banned"><span class="asc-ico">🚫</span><div class="asc-n" id="asc-banned">0</div><div class="asc-l">BANNED IPs</div><div class="asc-bar"></div></div>
     </div>
+    <!-- Tabs -->
+    <div class="adm-tabs" id="adminTabsNav"></div>
 
-    <!-- USERS TAB (owner only) -->
-    <div class="atab" id="atab-users">
-      <div class="panel-box">
-        <div class="pb-title">👥 USER MANAGEMENT</div>
-        <div class="panel-list" id="userPanelList"></div>
-      </div>
-    </div>
-
-    <!-- LIVE IP TAB (owner only) -->
-    <div class="atab" id="atab-live">
-      <div class="panel-box">
-        <div class="live-top-bar">
-          <div class="live-status-ind"><span class="live-pulse">●</span> LIVE IP MONITOR</div>
-          <div class="live-timer-txt">Auto-refresh: <strong id="liveCountdown">10</strong>s</div>
-          <button class="pb-btn-sm" onclick="refreshLive()">⟳ REFRESH NOW</button>
-        </div>
-        <div class="live-stat-row">
-          <div class="lsc"><div class="lsc-n" id="lsOnline">0</div><div class="lsc-l">ONLINE NOW</div></div>
-          <div class="lsc"><div class="lsc-n" id="lsTotal">0</div><div class="lsc-l">TOTAL SESSIONS</div></div>
-          <div class="lsc"><div class="lsc-n" id="lsBanned">0</div><div class="lsc-l">BANNED IPs</div></div>
-        </div>
-        <div class="live-tbl-wrap">
-          <table class="live-tbl">
-            <thead><tr><th>USER</th><th>ROLE</th><th>IP ADDRESS</th><th>LAST SEEN</th><th>STATUS</th><th>ACTION</th></tr></thead>
-            <tbody id="liveTbody"></tbody>
-          </table>
+    <!-- TAB: BUILDS -->
+    <div class="admc active" id="atab-builds">
+      <div class="atab-layout">
+        <div class="atab-main">
+          <div class="pbox" id="addBuildBox" style="display:none">
+            <div class="pb-title">+ ADD BUILD</div>
+            <div class="pb-grid">
+              <div class="fg"><label>BUILD NAME</label><div class="ib"><input id="aN" placeholder="build name"></div></div>
+              <div class="fg"><label>TYPE</label><div class="ib"><select id="aT"><option value="premium">Premium</option><option value="free">Free</option></select></div></div>
+              <div class="fg"><label>PRICE (IDR)</label><div class="ib"><input type="number" id="aP" placeholder="0"></div></div>
+              <div class="fg"><label>CATEGORY</label><div class="ib"><input id="aC" placeholder="Dashboard..."></div></div>
+              <div class="fg full"><label>DESCRIPTION</label><div class="ib"><textarea id="aD" rows="2"></textarea></div></div>
+              <div class="fg full"><label>LINK</label><div class="ib"><input id="aL" placeholder="https://..."></div></div>
+            </div>
+            <button class="pb-btn" onclick="adminAddBuild()">+ ADD BUILD</button>
+          </div>
+          <div class="pbox" id="pendingBox" style="display:none">
+            <div class="pb-title">⏳ PENDING REVIEW <span class="pend-badge" id="pendBadge">0</span></div>
+            <div class="panel-list" id="pendingList"></div>
+          </div>
+          <div class="pbox">
+            <div class="pb-title-row">
+              <div class="pb-title">📦 ALL BUILDS</div>
+              <div class="pb-search"><span>🔍</span><input placeholder="search..." oninput="filterBuildList(this.value)"></div>
+            </div>
+            <div class="build-tbl-wrap">
+              <table class="build-tbl">
+                <thead><tr><th>BUILD</th><th>TYPE</th><th>PRICE</th><th>BY</th><th>STATUS</th><th>ACTION</th></tr></thead>
+                <tbody id="buildTblBody"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- BAN IP TAB (owner only) -->
-    <div class="atab" id="atab-ban">
-      <div class="panel-box">
-        <div class="pb-title">🚫 BAN IP ADDRESS</div>
-        <div class="pb-grid">
-          <div class="fg"><label>IP ADDRESS</label><div class="ib"><input id="banIpIn" placeholder="e.g. 180.244.x.x"></div></div>
-          <div class="fg"><label>REASON</label><div class="ib"><input id="banRsnIn" placeholder="reason for ban..."></div></div>
+    <!-- TAB: USERS (owner) -->
+    <div class="admc" id="atab-users">
+      <div class="user-card-grid" id="userCardGrid"></div>
+    </div>
+
+    <!-- TAB: LIVE IP (owner) -->
+    <div class="admc" id="atab-live">
+      <div class="live-layout">
+        <div class="pbox live-feed-box">
+          <div class="pb-title-row">
+            <div class="pb-title"><span class="live-pulse">●</span> LIVE VISITOR FEED</div>
+            <div class="live-timer-row">Refresh: <strong id="liveCountdown">10</strong>s <button class="pb-btn-sm" onclick="refreshLive()">⟳</button></div>
+          </div>
+          <div class="live-mini-stats">
+            <div class="lms"><div class="lms-n" id="lsOnline">0</div><div class="lms-l">ONLINE</div></div>
+            <div class="lms"><div class="lms-n" id="lsTotal">0</div><div class="lms-l">SESSIONS</div></div>
+            <div class="lms"><div class="lms-n" id="lsBanned">0</div><div class="lms-l">BANNED</div></div>
+          </div>
+          <div class="visitor-feed" id="visitorFeed"></div>
         </div>
-        <button class="pb-btn danger" onclick="doBanIp()">🚫 BAN THIS IP</button>
-      </div>
-      <div class="panel-box">
-        <div class="pb-title">📋 BANNED IPs</div>
-        <div class="panel-list" id="banPanelList"></div>
+        <div class="live-right">
+          <div class="pbox">
+            <div class="pb-title">📱 DEVICE BREAKDOWN</div>
+            <div id="deviceBars" class="device-bars"></div>
+          </div>
+          <div class="pbox">
+            <div class="pb-title">📋 RECENT ACTIVITY</div>
+            <div id="activityList" class="activity-list"></div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- RESET PASSWORD TAB (owner only) -->
-    <div class="atab" id="atab-pwd">
-      <div class="panel-box">
-        <div class="pb-title">🔑 RESET PASSWORD</div>
-        <p class="pb-note">Leave username blank to reset your own password.</p>
-        <div class="pb-grid">
-          <div class="fg"><label>TARGET USERNAME</label><div class="ib"><input id="pwdTarget" placeholder="blank = yourself"></div></div>
-          <div class="fg"><label>NEW PASSWORD</label><div class="ib"><input type="password" id="pwdNew" placeholder="min 6 characters"><button class="eye-btn" onclick="toggleEye('pwdNew',this)">👁</button></div></div>
-          <div class="fg"><label>CONFIRM PASSWORD</label><div class="ib"><input type="password" id="pwdConf" placeholder="repeat password"><button class="eye-btn" onclick="toggleEye('pwdConf',this)">👁</button></div></div>
+    <!-- TAB: BAN IP (owner) -->
+    <div class="admc" id="atab-ban">
+      <div class="ban-layout">
+        <div class="pbox ban-form-box">
+          <div class="pb-title" style="color:var(--r)">🚫 BAN IP ADDRESS</div>
+          <div class="pb-grid">
+            <div class="fg"><label>IP ADDRESS</label><div class="ib"><input id="banIpIn" placeholder="180.x.x.x"></div></div>
+            <div class="fg"><label>REASON</label><div class="ib"><input id="banRsnIn" placeholder="reason..."></div></div>
+          </div>
+          <button class="pb-btn danger" onclick="doBanIp()">🚫 BAN THIS IP</button>
         </div>
-        <div class="aerr" id="pwdErr"></div>
-        <button class="pb-btn" onclick="doResetPassword()">🔑 RESET PASSWORD</button>
+        <div class="pbox">
+          <div class="pb-title">📋 BANNED IPs</div>
+          <div class="panel-list" id="banPanelList"></div>
+        </div>
       </div>
     </div>
 
-    <!-- STAFF CODES TAB (owner only) -->
-    <div class="atab" id="atab-codes">
-      <div class="panel-box">
-        <div class="pb-title">🎫 STAFF ACCESS CODES</div>
-        <p class="pb-note">Generate random one-time codes to invite staff members. Each code can only be used once.</p>
-        <button class="pb-btn" onclick="generateStaffCode()">+ GENERATE NEW CODE</button>
-        <div style="margin-top:20px"><div class="pb-title" style="margin-bottom:12px">ACTIVE CODES</div><div class="panel-list" id="staffCodeList"></div></div>
+    <!-- TAB: RESET PWD (owner) -->
+    <div class="admc" id="atab-pwd">
+      <div style="max-width:460px">
+        <div class="pbox">
+          <div class="pb-title">🔑 RESET PASSWORD</div>
+          <p class="pb-note">Leave username blank to reset your own password.</p>
+          <div class="pb-grid">
+            <div class="fg"><label>TARGET USERNAME</label><div class="ib"><input id="pwdTarget" placeholder="blank = yourself"></div></div>
+            <div class="fg"><label>NEW PASSWORD</label><div class="ib"><input type="password" id="pwdNew"><button class="eye" onclick="toggleEye('pwdNew',this)">👁</button></div></div>
+            <div class="fg"><label>CONFIRM</label><div class="ib"><input type="password" id="pwdConf"><button class="eye" onclick="toggleEye('pwdConf',this)">👁</button></div></div>
+          </div>
+          <div class="aerr" id="pwdErr"></div>
+          <button class="pb-btn" onclick="doResetPassword()">🔑 RESET PASSWORD</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: STAFF CODES (owner) -->
+    <div class="admc" id="atab-codes">
+      <div class="codes-layout">
+        <div class="pbox">
+          <div class="pb-title">🎫 GENERATE STAFF CODE</div>
+          <p class="pb-note">One-time codes for staff registration. Each code can only be used once.</p>
+          <button class="pb-btn" onclick="generateStaffCode()">+ GENERATE NEW CODE</button>
+          <div class="last-code-box" id="lastCodeBox" style="display:none">
+            <div class="lcb-label">GENERATED CODE — SHARE WITH STAFF</div>
+            <div class="lcb-code" id="lastCodeText">—</div>
+          </div>
+        </div>
+        <div class="pbox">
+          <div class="pb-title">ACTIVE CODES</div>
+          <div id="staffCodeList" class="panel-list"></div>
+        </div>
       </div>
     </div>
 
@@ -421,12 +405,9 @@
 
 </div><!-- /mainApp -->
 
-<!-- BUILD MODAL -->
+<!-- MODAL -->
 <div id="modalOverlay" class="modal-overlay" onclick="closeModal(event)">
-  <div class="modal-box" id="modalBox">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div id="modalContent"></div>
-  </div>
+  <div class="modal-box"><button class="modal-x" onclick="closeModal()">✕</button><div id="modalContent"></div></div>
 </div>
 
 <!-- TOAST -->
