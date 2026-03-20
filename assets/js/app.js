@@ -1017,3 +1017,201 @@ function initParallax(){
     orb.style.transform=`perspective(800px) rotateY(${dx*12}deg) rotateX(${-dy*8}deg)`;
   });
 }
+
+/* ════════════════════════════════════════════════════
+   INTERACTIVE EFFECTS v6
+   ════════════════════════════════════════════════════ */
+
+/* ── NAVBAR scroll class ── */
+window.addEventListener('scroll',()=>{
+  const nb=document.getElementById('navbar');
+  if(nb) nb.classList.toggle('scrolled', window.scrollY>60);
+});
+
+/* ── MAGNETIC CURSOR on hero buttons ── */
+function initMagnetic(){
+  document.querySelectorAll('.hbtn,.btn-logout,.pb-btn,.action-btn').forEach(el=>{
+    el.addEventListener('mousemove',e=>{
+      const r=el.getBoundingClientRect();
+      const x=(e.clientX-r.left-r.width/2)*.28;
+      const y=(e.clientY-r.top-r.height/2)*.28;
+      el.style.transform=`translate(${x}px,${y}px) scale(1.04)`;
+    });
+    el.addEventListener('mouseleave',()=>{ el.style.transform=''; });
+  });
+}
+
+/* ── CLICK RIPPLE on any button ── */
+function initRipple(){
+  document.querySelectorAll('.hbtn,.pb-btn,.admin-tab-btn,.flt,.btn-logout,.action-btn,.submit-build-btn').forEach(el=>{
+    el.addEventListener('click',e=>{
+      const r=el.getBoundingClientRect();
+      const rip=document.createElement('span');
+      const size=Math.max(r.width,r.height);
+      rip.style.cssText=`
+        position:absolute;border-radius:50%;
+        width:${size}px;height:${size}px;
+        left:${e.clientX-r.left-size/2}px;
+        top:${e.clientY-r.top-size/2}px;
+        background:rgba(255,255,255,.18);
+        transform:scale(0);
+        animation:rippleOut .55s ease-out forwards;
+        pointer-events:none;z-index:99;
+      `;
+      el.style.position='relative';
+      el.style.overflow='hidden';
+      el.appendChild(rip);
+      setTimeout(()=>rip.remove(), 600);
+    });
+  });
+}
+/* inject ripple keyframe once */
+if(!document.getElementById('rippleStyle')){
+  const st=document.createElement('style');
+  st.id='rippleStyle';
+  st.textContent='@keyframes rippleOut{to{transform:scale(2.5);opacity:0}}';
+  document.head.appendChild(st);
+}
+
+/* ── CARD HOVER GLOW follow cursor ── */
+function initCardGlow(){
+  document.querySelectorAll('.bcard,.why-card,.sc,.ucrd').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=((e.clientX-r.left)/r.width)*100;
+      const y=((e.clientY-r.top)/r.height)*100;
+      card.style.setProperty('--mx',x+'%');
+      card.style.setProperty('--my',y+'%');
+      card.style.background=`radial-gradient(circle at ${x}% ${y}%, rgba(0,255,213,.05) 0%, transparent 60%), var(--bg3)`;
+    });
+    card.addEventListener('mouseleave',()=>{
+      card.style.background='';
+    });
+  });
+}
+
+/* ── COUNTER glow when number changes ── */
+function flashCount(el){
+  if(!el) return;
+  el.style.transition='transform .2s, color .2s';
+  el.style.transform='scale(1.2)';
+  el.style.color='var(--a)';
+  setTimeout(()=>{el.style.transform='';el.style.color='';}, 350);
+}
+
+/* ── ORBITRON HERO TEXT: mouse-track glow ── */
+function initTextGlow(){
+  const h1=document.querySelector('.hero-h1');
+  if(!h1) return;
+  document.addEventListener('mousemove',e=>{
+    const r=h1.getBoundingClientRect();
+    const cx=r.left+r.width/2, cy=r.top+r.height/2;
+    const dx=e.clientX-cx, dy=e.clientY-cy;
+    const dist=Math.hypot(dx,dy);
+    const maxD=500;
+    if(dist<maxD){
+      const intensity=1-(dist/maxD);
+      h1.style.filter=`drop-shadow(${dx*.03}px ${dy*.03}px ${intensity*18}px rgba(0,255,213,${intensity*.5}))`;
+    } else {
+      h1.style.filter='';
+    }
+  });
+}
+
+/* ── STATS BANNER numbers: count on visible ── */
+function initStatsBannerObserver(){
+  const sb=document.querySelector('.stats-banner');
+  if(!sb || sb._observed) return;
+  sb._observed=true;
+  const obs=new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting){
+      updateStatsBanner();
+      obs.disconnect();
+    }
+  },{threshold:.3});
+  obs.observe(sb);
+}
+
+/* ── PARTICLE BURST on logo click ── */
+function initOrbBurst(){
+  const orb=document.querySelector('.orb-core');
+  if(!orb) return;
+  orb.addEventListener('click',()=>{
+    const colors=['var(--a)','var(--v)','var(--r)','var(--g)','var(--gold)'];
+    const parent=orb.parentElement;
+    for(let i=0;i<18;i++){
+      const p=document.createElement('div');
+      const angle=Math.random()*Math.PI*2;
+      const dist=60+Math.random()*80;
+      const dur=600+Math.random()*400;
+      p.style.cssText=`
+        position:absolute;width:5px;height:5px;
+        border-radius:50%;pointer-events:none;z-index:10;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        top:50%;left:50%;
+        animation:burstP ${dur}ms ease-out forwards;
+        --bx:${Math.cos(angle)*dist}px;--by:${Math.sin(angle)*dist}px;
+      `;
+      parent.style.position='relative';
+      parent.appendChild(p);
+      setTimeout(()=>p.remove(), dur+50);
+    }
+    if(!document.getElementById('burstStyle')){
+      const st=document.createElement('style');
+      st.id='burstStyle';
+      st.textContent='@keyframes burstP{0%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(calc(-50% + var(--bx)),calc(-50% + var(--by))) scale(0);opacity:0}}';
+      document.head.appendChild(st);
+    }
+  });
+}
+
+/* ── SECTION TRANSITION: stagger children ── */
+function staggerSection(page){
+  const sec=document.getElementById('sec-'+page);
+  if(!sec) return;
+  const children=[...sec.querySelectorAll('.bcard,.why-card,.cat-card,.faq-item,.stat,.ucrd')];
+  children.forEach((el,i)=>{
+    el.style.opacity='0';
+    el.style.transform='translateY(24px)';
+    setTimeout(()=>{
+      el.style.transition='opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1)';
+      el.style.opacity='1';
+      el.style.transform='translateY(0)';
+    }, i*55+80);
+  });
+}
+
+/* ── INIT ALL INTERACTIVE EFFECTS ── */
+function initAllInteractive(){
+  initMagnetic();
+  initRipple();
+  initCardGlow();
+  initTextGlow();
+  initOrbBurst();
+  initStatsBannerObserver();
+  // re-init on section change
+  const _origGoTo2=goTo;
+  window._goToPatched=true;
+}
+
+/* Patch goTo once to run stagger on navigate */
+(function patchGoTo(){
+  const orig=goTo;
+  goTo=function(page){
+    orig(page);
+    setTimeout(()=>staggerSection(page),120);
+    setTimeout(initMagnetic,300);
+    setTimeout(initRipple,300);
+    setTimeout(initCardGlow,300);
+  };
+})();
+
+/* Attach to launchApp flow */
+document.addEventListener('DOMContentLoaded',()=>{
+  const check=setInterval(()=>{
+    if(document.getElementById('mainApp').style.display==='block'){
+      clearInterval(check);
+      setTimeout(initAllInteractive, 500);
+    }
+  },200);
+});
