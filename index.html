@@ -211,12 +211,60 @@
       <div class="why-card wc1"><div class="wc-ico">⚡</div><div class="wc-title">Instant Access</div><div class="wc-desc">Download .build files immediately after purchase.</div></div>
       <div class="why-card wc2"><div class="wc-ico">🛡</div><div class="wc-title">Verified Builds</div><div class="wc-desc">Every build reviewed by owner before going live.</div></div>
       <div class="why-card wc3"><div class="wc-ico">💎</div><div class="wc-title">Premium Quality</div><div class="wc-desc">Curated builds from talented developers.</div></div>
-      <div class="why-card wc4"><div class="wc-ico">🔒</div><div class="wc-title">Secure Platform</div><div class="wc-desc">IP banning, session control &amp; PowerShell panel.</div></div>
+      <div class="why-card wc4"><div class="wc-ico">🚀</div><div class="wc-title">Fast Delivery</div><div class="wc-desc">Your build goes live fast. Upload once, reach all members instantly.</div></div>
     </div>
   </div>
   <div class="home-section reveal">
     <div class="hs-header"><div class="hs-title-row"><h2 class="hs-title">RECENTLY ADDED</h2><div class="hs-line"></div></div><button class="btn-see-all" onclick="goTo('store')">VIEW ALL →</button></div>
     <div class="builds-grid" id="recentGrid"></div>
+  </div>
+
+  <!-- STATS BANNER -->
+  <div class="home-section reveal">
+    <div class="stats-banner">
+      <div class="sb-item"><div class="sb-num" id="sbBuilds">0</div><div class="sb-label">BUILDS UPLOADED</div></div>
+      <div class="sb-div"></div>
+      <div class="sb-item"><div class="sb-num" id="sbMembers">0</div><div class="sb-label">MEMBERS JOINED</div></div>
+      <div class="sb-div"></div>
+      <div class="sb-item"><div class="sb-num" id="sbOnlineStat">0</div><div class="sb-label">ONLINE RIGHT NOW</div></div>
+      <div class="sb-div"></div>
+      <div class="sb-item"><div class="sb-num" style="color:var(--gold)">100%</div><div class="sb-label">LEGIT BUILDS</div></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="home-section reveal">
+    <div class="hs-header"><div class="hs-title-row"><h2 class="hs-title">FAQ</h2><div class="hs-line"></div></div></div>
+    <div class="faq-list">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>What is a .build file?</span><span class="faq-arr">+</span></div>
+        <div class="faq-a">A <strong>.build</strong> file is a packaged project file exclusive to OXYX STORE. It contains your complete project in a single distributable format that's easy to share and deploy.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>How do I upload my build?</span><span class="faq-arr">+</span></div>
+        <div class="faq-a">Go to <strong>UPLOAD BUILD</strong> in the navbar. Upload your .build file, add a preview photo, fill in the details and submit. The owner reviews within 24 hours before it goes live.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>Are free builds actually free?</span><span class="faq-arr">+</span></div>
+        <div class="faq-a">Yes, 100% free. Click the build, hit Download, and get the .build file immediately — no payment required beyond your OXYX account.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>How do I buy a premium build?</span><span class="faq-arr">+</span></div>
+        <div class="faq-a">Click any premium build then <strong>BUY NOW</strong>. You'll see the seller's contact (WhatsApp or Discord). Reach out directly to arrange payment and receive your file.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>Can I sell my own builds?</span><span class="faq-arr">+</span></div>
+        <div class="faq-a">Absolutely! Upload your build, set it as Premium, enter your price in IDR, and add your contact. After owner approval, buyers contact you directly. OXYX takes 20% for premium builds.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>How long does review take?</span><span class="faq-arr">+</span></div>
+        <div class="faq-a">Typically within 24 hours. Track your pending builds in the Upload section. You'll get a notification once approved.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>What formats can I upload?</span><span class="faq-arr">+</span></div>
+        <div class="faq-a">Only <strong>.build</strong> files are accepted for the build file, and JPG/PNG/WEBP (max 5MB) for the preview photo. Make sure your project is properly packaged before uploading.</div>
+      </div>
+    </div>
   </div>
 </section>
 
