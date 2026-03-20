@@ -11,6 +11,7 @@
 </head>
 <body>
 <canvas id="bgCanvas"></canvas>
+<div id="scrollProgress"></div>
 <div id="cGlow"></div><div id="cDot"></div>
 <button id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
@@ -273,7 +274,7 @@
 
 <!-- ALL BUILDS -->
 <section id="sec-store" class="sec">
-  <div class="sec-head"><h2 class="sec-title">ALL BUILDS</h2>
+  <div class="sec-head"><h2 class="sec-title">ALL BUILDS <span class="sec-count" id="cntStore"></span></h2>
     <div class="filter-bar">
       <button class="flt active" onclick="applyFilter('all',this,'storeGrid')">ALL</button>
       <button class="flt" onclick="applyFilter('premium',this,'storeGrid')">PREMIUM</button>
@@ -285,13 +286,13 @@
 
 <!-- PREMIUM -->
 <section id="sec-premium" class="sec">
-  <div class="sec-head"><h2 class="sec-title">PREMIUM BUILDS <span style="color:var(--gold)">♛</span></h2><p class="sec-sub">Exclusive builds, highest quality</p></div>
+  <div class="sec-head"><h2 class="sec-title">PREMIUM BUILDS <span style="color:var(--gold)">♛</span> <span class="sec-count sec-count-gold" id="cntPrem"></span></h2><p class="sec-sub">Exclusive builds, highest quality</p></div>
   <div class="builds-grid" id="premGrid"></div>
 </section>
 
 <!-- FREE -->
 <section id="sec-free" class="sec">
-  <div class="sec-head"><h2 class="sec-title">FREE BUILDS <span style="color:var(--fr)">✦</span></h2><p class="sec-sub">High quality, completely free</p></div>
+  <div class="sec-head"><h2 class="sec-title">FREE BUILDS <span style="color:var(--fr)">✦</span> <span class="sec-count sec-count-green" id="cntFree"></span></h2><p class="sec-sub">High quality, completely free</p></div>
   <div class="builds-grid" id="freeGrid"></div>
 </section>
 
@@ -305,8 +306,11 @@
       <div class="upload-files-row">
         <div class="file-drop-zone" id="buildDropZone" onclick="document.getElementById('buildFileInput').click()">
           <input type="file" id="buildFileInput" accept=".build" style="display:none" onchange="handleBuildFile(this)">
-          <div class="fdz-icon">📦</div><div class="fdz-main">Drop .build file here</div>
-          <div class="fdz-sub">.build format only</div><div class="fdz-selected" id="buildFileName"></div>
+          <div class="fdz-icon">📦</div>
+          <div class="fdz-main">Drop your .build file here</div>
+          <div class="fdz-sub">.build format only &nbsp;·&nbsp; e.g. <strong>myapp.build</strong></div>
+          <div class="fdz-sub" style="margin-top:3px;font-size:.58rem;opacity:.6">Max 50 MB</div>
+          <div class="fdz-selected" id="buildFileName"></div>
         </div>
         <div class="file-drop-zone photo-zone" id="photoDropZone" onclick="document.getElementById('photoFileInput').click()">
           <input type="file" id="photoFileInput" accept="image/*" style="display:none" onchange="handlePhotoFile(this)">
@@ -317,13 +321,13 @@
         </div>
       </div>
       <div class="uf-grid">
-        <div class="fg"><label>BUILD NAME <span class="req">*</span></label><div class="ib"><input id="sbN" placeholder="your build name"></div></div>
+        <div class="fg"><label>BUILD NAME <span class="req">*</span></label><div class="ib"><input id="sbN" oninput="clearIbError('sbN')" placeholder="your build name"></div></div>
         <div class="fg"><label>TYPE <span class="req">*</span></label><div class="ib"><select id="sbT"><option value="free">Free</option><option value="premium">Premium</option></select></div></div>
-        <div class="fg"><label>PRICE (IDR)</label><div class="ib"><input type="number" id="sbP" placeholder="0"></div></div>
-        <div class="fg"><label>CATEGORY</label><div class="ib"><input id="sbC" placeholder="Dashboard, Portfolio..."></div></div>
-        <div class="fg full"><label>DESCRIPTION <span class="req">*</span></label><div class="ib"><textarea id="sbD" rows="3" placeholder="Describe features, tech stack..."></textarea></div></div>
-        <div class="fg full"><label>DEMO LINK <span class="req">*</span></label><div class="ib"><input id="sbL" placeholder="https://your-demo.com"></div></div>
-        <div class="fg full"><label>SELLER CONTACT</label><div class="ib"><input id="sbK" placeholder="wa.me/... or Discord: user#0000"></div></div>
+        <div class="fg"><label>PRICE (IDR)</label><div class="ib"><input type="number" id="sbP" oninput="clearIbError('sbP')" placeholder="0"></div></div>
+        <div class="fg"><label>CATEGORY</label><div class="ib"><input id="sbC" oninput="clearIbError('sbC')" placeholder="Dashboard, Portfolio..."></div></div>
+        <div class="fg full"><label>DESCRIPTION <span class="req">*</span></label><div class="ib"><textarea id="sbD" rows="3" oninput="clearIbError('sbD')" placeholder="Describe features, tech stack..."></textarea></div></div>
+        <div class="fg full"><label>DEMO LINK <span class="req">*</span></label><div class="ib"><input id="sbL" oninput="clearIbError('sbL')" placeholder="https://your-demo.com"></div></div>
+        <div class="fg full"><label>SELLER CONTACT</label><div class="ib"><input id="sbK" oninput="clearIbError('sbK')" placeholder="wa.me/... or Discord: user#0000"></div></div>
       </div>
       <div class="tos-row"><label class="tos-label"><input type="checkbox" id="sbTos"><span>I confirm this is my original work</span></label></div>
       <button class="submit-build-btn" onclick="submitBuild()"><span>↑ SUBMIT BUILD</span><div class="btn-shine"></div></button>
@@ -505,6 +509,48 @@
 
   </div>
 </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="site-footer">
+    <div class="sf-inner">
+      <div class="sf-brand">
+        <div class="sf-logo"><span class="ox">OX</span><span class="yx">YX</span><span class="sf-store">STORE</span></div>
+        <p class="sf-tagline">The most elite build marketplace.<br>Buy, sell and upload .build files.</p>
+        <div class="sf-socials">
+          <a class="sf-tag chip-a" onclick="goTo('store')">All Builds</a>
+          <a class="sf-tag chip-v" onclick="goTo('premium')">Premium</a>
+          <a class="sf-tag chip-g" onclick="goTo('free')">Free</a>
+          <a class="sf-tag chip-y" onclick="goTo('submit')">Upload</a>
+        </div>
+      </div>
+      <div class="sf-cols">
+        <div class="sf-col">
+          <div class="sf-col-title">MARKETPLACE</div>
+          <a class="sf-link" onclick="goTo('store')">Browse Builds</a>
+          <a class="sf-link" onclick="goTo('premium')">Premium Builds</a>
+          <a class="sf-link" onclick="goTo('free')">Free Builds</a>
+          <a class="sf-link" onclick="goTo('submit')">Upload Your Build</a>
+        </div>
+        <div class="sf-col">
+          <div class="sf-col-title">ACCOUNT</div>
+          <a class="sf-link" onclick="goTo('profile')">My Profile</a>
+          <a class="sf-link" onclick="goTo('profile')">Wishlist</a>
+          <a class="sf-link" onclick="goTo('profile')">My Builds</a>
+        </div>
+        <div class="sf-col">
+          <div class="sf-col-title">FORMAT</div>
+          <div class="sf-info">Only .build files accepted</div>
+          <div class="sf-info">e.g. <strong>myapp.build</strong></div>
+          <div class="sf-info" style="margin-top:8px">Max size: 50 MB</div>
+          <div class="sf-info">Review: within 24h</div>
+        </div>
+      </div>
+    </div>
+    <div class="sf-bottom">
+      <div class="sf-copy">© 2025 OXYX STORE · All rights reserved</div>
+      <div class="sf-copy" style="color:var(--t3)">Powered by OXYX ENGINE</div>
+    </div>
+  </footer>
 
 </div><!-- /mainApp -->
 
