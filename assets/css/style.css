@@ -653,11 +653,19 @@ input,textarea,select{-webkit-user-select:text;user-select:text}
 .bcard:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(0,255,213,.35);box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 0 1px rgba(0,255,213,.15)}
 
 /* ── GLITCH TEXT EFFECT (hero accent) ── */
-.h1-accent{position:relative}
-.h1-accent::before{content:attr(data-text);position:absolute;top:0;left:-2px;color:var(--v);clip-path:polygon(0 30%,100% 30%,100% 55%,0 55%);animation:glitchA 4s infinite;opacity:.7}
-.h1-accent::after{content:attr(data-text);position:absolute;top:0;left:2px;color:var(--r);clip-path:polygon(0 60%,100% 60%,100% 75%,0 75%);animation:glitchB 4s infinite 1.5s;opacity:.5}
-@keyframes glitchA{0%,85%,87%,100%{transform:translate(0)}86%{transform:translate(-3px,1px)}88%{transform:translate(2px,-1px)}}
-@keyframes glitchB{0%,80%,83%,100%{transform:translate(0)}81%{transform:translate(3px,-1px)}82%{transform:translate(-2px,1px)}}
+/* glitch removed — replaced with aurora shift */
+.h1-accent{
+  position:relative;
+  background:linear-gradient(90deg,var(--a),var(--v),#ff6ec7,var(--gold),var(--a));
+  background-size:300% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:auroraShift 4s linear infinite, h1FloatY 6s ease-in-out infinite;
+  filter:drop-shadow(0 0 24px rgba(0,255,213,.45));
+}
+@keyframes auroraShift{0%{background-position:0% 50%}50%{background-position:150% 50%}100%{background-position:300% 50%}}
+@keyframes h1FloatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 
 /* ── CURSOR TRAIL GLOW ── */
 #cGlow{transition:none;mix-blend-mode:screen}
@@ -713,3 +721,45 @@ input,textarea,select{-webkit-user-select:text;user-select:text}
 
 /* ── RESPONSIVE ── */
 @media(max-width:768px){.stats-banner{flex-direction:column;gap:20px;padding:28px 20px}.sb-div{width:80%;height:1px}.faq-q{font-size:.9rem}}
+
+/* ── HERO TITLE — CHAR WAVE + SPARKLES ── */
+/* per-character glow wave */
+.hc{
+  display:inline-block;
+  animation:charWave 2.4s ease-in-out infinite;
+  will-change:transform,filter;
+}
+@keyframes charWave{
+  0%,100%{transform:translateY(0) scale(1);filter:drop-shadow(0 0 6px rgba(0,255,213,.3))}
+  50%{transform:translateY(-8px) scale(1.08);filter:drop-shadow(0 0 22px rgba(176,109,255,.8))}
+}
+
+/* sparkle dots */
+.hero-sparkle{
+  position:absolute;
+  width:5px;height:5px;
+  border-radius:50%;
+  pointer-events:none;
+  animation:sparkleOut .9s ease-out forwards;
+  z-index:2;
+}
+@keyframes sparkleOut{
+  0%{opacity:1;transform:scale(0) translateY(0)}
+  40%{opacity:1;transform:scale(1.6) translateY(-12px)}
+  100%{opacity:0;transform:scale(.4) translateY(-28px)}
+}
+
+/* aurora glow behind the whole hero h1 */
+.hero-h1{
+  position:relative;
+}
+.hero-h1::before{
+  content:'';
+  position:absolute;
+  inset:-20px -30px;
+  background:radial-gradient(ellipse 70% 40% at 50% 60%,rgba(0,255,213,.06),transparent 70%),
+             radial-gradient(ellipse 40% 30% at 30% 50%,rgba(176,109,255,.05),transparent 70%);
+  animation:heroBgPulse 5s ease-in-out infinite;
+  pointer-events:none;z-index:0;border-radius:20px;
+}
+@keyframes heroBgPulse{0%,100%{opacity:.5}50%{opacity:1}}
