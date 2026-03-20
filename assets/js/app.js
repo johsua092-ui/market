@@ -200,24 +200,33 @@ async function doLogin() {
   if (!u || !pw) { err.textContent = 'Fill in all fields.'; return; }
   err.textContent = 'Connecting...';
   try {
-    // PocketBase auth: if input has @ treat as email, else treat as username
-    // PocketBase built-in users collection supports authWithPassword(emailOrUsername, pw)
-    await pb.collection('users').authWithPassword(u, pw);
-    CU = pb.authStore.model;
-    // Attach username if not set
-    if (!CU.username) CU.username = CU.email.split('@')[0];
+    // Try login — PocketBase users collection: use email to login
+    // username is just for display; login always uses email
+    var authData = await pb.collection('users').authWithPassword(u, pw);
+    CU = authData.record || pb.authStore.model;
+    if (!CU.username) CU.username = CU.name || CU.email.split('@')[0];
     if (!CU.role)     CU.role = 'user';
     err.textContent = '';
     launchApp();
   } catch (e) {
-    // Show the real error so user knows what happened
-    var msg = e.message || '';
-    if (msg.includes('Failed to authenticate') || e.status === 400) {
-      err.textContent = 'Incorrect email/username or password.';
-    } else if (msg.includes('network') || msg.includes('fetch')) {
-      err.textContent = 'Cannot connect to server. Check your PocketBase URL.';
+    // Show full error detail to help diagnose PocketBase issues
+    var status  = e.status  || 0;
+    var msg     = e.message || 'Unknown error';
+    var rawData = '';
+    try { rawData = JSON.stringify(e.data || e.response || {}); } catch(_) {}
+
+    if (status === 400) {
+      err.textContent = 'Wrong email or password.';
+    } else if (status === 0 || msg.includes('fetch') || msg.includes('network') || msg.includes('Failed to fetch')) {
+      err.textContent = 'Cannot reach server. Is your PocketBase URL correct in index.html?  URL: ' + (window.PB_URL || 'NOT SET');
+    } else if (status === 403) {
+      err.textContent = 'Access denied (403). Check API Rules in PocketBase dashboard.';
+    } else if (status === 404) {
+      err.textContent = 'Collection not found (404). Create the "users" collection in PocketBase.';
+    } else if (msg.includes('something went wrong') || status === 500) {
+      err.textContent = 'PocketBase server error (500). Check if PocketBase is running on Railway. Detail: ' + rawData;
     } else {
-      err.textContent = 'Login error: ' + msg;
+      err.textContent = '[' + status + '] ' + msg;
     }
   }
 }
@@ -265,16 +274,25 @@ async function doRegister() {
     toast('Account created! Welcome ' + u, 'ok');
     launchApp();
   } catch (e) {
-    var msg = e.message || '';
-    var data = e.data || {};
+    var status = e.status || 0;
+    var msg    = e.message || '';
+    var data   = e.data || {};
     if (data.email) {
       err.textContent = 'Email already registered.';
     } else if (data.username) {
       err.textContent = 'Username already taken.';
-    } else if (msg.includes('network') || msg.includes('fetch')) {
-      err.textContent = 'Cannot connect. Make sure your PocketBase URL is set correctly.';
+    } else if (status === 0 || msg.includes('fetch') || msg.includes('Failed to fetch')) {
+      err.textContent = 'Cannot reach server. URL set: ' + (window.PB_URL || 'NOT SET');
+    } else if (status === 403) {
+      err.textContent = 'Access denied (403). Set "Create rule" to empty (allow all) in PocketBase users collection.';
+    } else if (status === 404) {
+      err.textContent = 'Collection not found. Create "users" collection in PocketBase dashboard.';
+    } else if (status === 400) {
+      var detail = '';
+      try { detail = Object.keys(data).map(function(k){ return k + ': ' + (data[k].message || data[k]); }).join(', '); } catch(_){}
+      err.textContent = 'Validation error: ' + (detail || msg);
     } else {
-      err.textContent = 'Register error: ' + msg;
+      err.textContent = '[' + status + '] ' + msg;
     }
   }
 }
