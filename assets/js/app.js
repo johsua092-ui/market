@@ -346,7 +346,8 @@ function launchApp(){
   const pl=document.getElementById('nl-profile');if(pl)pl.style.display='inline';
   startPing();syncLive();setInterval(syncLive,PING_MS);
   updateNotifDot();applyTicker();
-  goTo('home');updateHomeStats();setTimeout(initReveal,200);
+  goTo('home');updateHomeStats();
+  setTimeout(()=>{initReveal();initParticles();initGlitch();initParallax();updateStatsBanner();},200);
 }
 
 /* ── TICKER ── */
@@ -375,7 +376,7 @@ function goTo(page){
   const sec=document.getElementById('sec-'+page);if(sec)sec.classList.add('active');
   const lnk=document.getElementById('nl-'+page);if(lnk)lnk.classList.add('active');
   document.getElementById('nbLinks').classList.remove('open');
-  if(page==='home'){renderGrid('featGrid',null,'all',true,false);renderGrid('recentGrid',null,'all',false,true);updateHomeStats();}
+  if(page==='home'){renderGrid('featGrid',null,'all',true,false);renderGrid('recentGrid',null,'all',false,true);updateHomeStats();setTimeout(updateStatsBanner,300);}
   if(page==='store')renderGrid('storeGrid',null,curFilter);
   if(page==='premium')renderGrid('premGrid','premium');
   if(page==='free')renderGrid('freeGrid','free');
@@ -968,90 +969,56 @@ document.addEventListener('keydown',e=>{
   });
 })();
 
-/* ═══════════════════════════════════════════
-   NEW ADDITIONS v5.1
-   ═══════════════════════════════════════════ */
+/* ─────────────────────────────────
+   EFFECTS & NEW FEATURES (v5.1)
+───────────────────────────────── */
 
-/* ── FAQ ACCORDION ── */
-function toggleFaq(el) {
-  const isOpen = el.classList.contains('open');
-  // Close all
-  document.querySelectorAll('.faq-item.open').forEach(x => x.classList.remove('open'));
-  // Open clicked if it was closed
-  if (!isOpen) el.classList.add('open');
+/* FAQ accordion */
+function toggleFaq(el){
+  const isOpen=el.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(x=>x.classList.remove('open'));
+  if(!isOpen) el.classList.add('open');
 }
 
-/* ── STATS BANNER COUNTER ── */
-function updateStatsBanner() {
-  const builds  = ls('builds', []).filter(b => b.status === 'approved');
-  const users   = ls('users',  []);
-  const online  = Object.values(ls('sessions', {})).filter(r => (Date.now() - r.lastPing) < SESSION_TTL).length;
-  animNum(document.getElementById('sbBuilds'),  builds.length, 1400);
-  animNum(document.getElementById('sbMembers'), users.length,  1400);
-  animNum(document.getElementById('sbOnlineStat'), online, 800);
+/* Stats banner counters */
+function updateStatsBanner(){
+  const builds=ls('builds',[]).filter(b=>b.status==='approved');
+  const users=ls('users',[]);
+  const online=Object.values(ls('sessions',{})).filter(r=>(Date.now()-r.lastPing)<SESSION_TTL).length;
+  animNum(document.getElementById('sbBuilds'),builds.length,1400);
+  animNum(document.getElementById('sbMembers'),users.length,1400);
+  animNum(document.getElementById('sbOnlineStat'),online,800);
 }
 
-/* ── FLOATING PARTICLES (hero bg) ── */
-function initParticles() {
-  const hero = document.querySelector('.hero');
-  if (!hero) return;
-  const wrap = document.createElement('div');
-  wrap.className = 'float-particles';
+/* Floating particles behind hero */
+function initParticles(){
+  const hero=document.querySelector('.hero');if(!hero)return;
+  if(hero.querySelector('.float-particles'))return;
+  const wrap=document.createElement('div');wrap.className='float-particles';
   hero.prepend(wrap);
-  const colors = ['rgba(0,255,213,.15)', 'rgba(176,109,255,.12)', 'rgba(255,45,85,.1)', 'rgba(0,255,136,.1)'];
-  for (let i = 0; i < 18; i++) {
-    const p = document.createElement('div');
-    p.className = 'fp';
-    const size = Math.random() * 8 + 3;
-    const dur  = Math.random() * 18 + 12;
-    const delay = Math.random() * -20;
-    p.style.cssText = `
-      width:${size}px;height:${size}px;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      left:${Math.random()*100}%;
-      bottom:${Math.random()*30}%;
-      animation-duration:${dur}s;
-      animation-delay:${delay}s;
-    `;
+  const colors=['rgba(0,255,213,.12)','rgba(176,109,255,.1)','rgba(255,45,85,.08)','rgba(0,255,136,.09)'];
+  for(let i=0;i<16;i++){
+    const p=document.createElement('div');p.className='fp';
+    const size=Math.random()*8+3,dur=Math.random()*18+12,delay=Math.random()*-20;
+    p.style.cssText=`width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};left:${Math.random()*100}%;bottom:${Math.random()*30}%;animation-duration:${dur}s;animation-delay:${delay}s;`;
     wrap.appendChild(p);
   }
 }
 
-/* ── GLITCH DATA-TEXT ATTR FOR H1 ACCENT ── */
-function initGlitch() {
-  document.querySelectorAll('.h1-accent').forEach(el => {
-    el.setAttribute('data-text', el.textContent);
+/* Glitch data-text for h1 */
+function initGlitch(){
+  document.querySelectorAll('.h1-accent').forEach(el=>{
+    if(!el.getAttribute('data-text')) el.setAttribute('data-text',el.textContent);
   });
 }
 
-/* ── MOUSE PARALLAX ON HERO ── */
-function initParallax() {
-  const orb = document.querySelector('.orb-3d');
-  if (!orb) return;
-  document.addEventListener('mousemove', e => {
-    const cx = window.innerWidth  / 2;
-    const cy = window.innerHeight / 2;
-    const dx = (e.clientX - cx) / cx;
-    const dy = (e.clientY - cy) / cy;
-    orb.style.transform = `perspective(800px) rotateY(${dx * 12}deg) rotateX(${-dy * 8}deg)`;
+/* Mouse parallax on orb */
+function initParallax(){
+  const orb=document.querySelector('.orb-3d');if(!orb)return;
+  if(orb._parallax) return; orb._parallax=true;
+  document.addEventListener('mousemove',e=>{
+    const cx=window.innerWidth/2,cy=window.innerHeight/2;
+    const dx=(e.clientX-cx)/cx,dy=(e.clientY-cy)/cy;
+    orb.style.transform=`perspective(800px) rotateY(${dx*12}deg) rotateX(${-dy*8}deg)`;
   });
-}
-
-/* ── PATCH goTo to also update stats banner ── */
-const _origGoTo = goTo;
-function goTo(page) {
-  _origGoTo(page);
-  if (page === 'home') {
-    setTimeout(updateStatsBanner, 400);
-  }
-}
-
-/* ── INIT EFFECTS on launch ── */
-const _origLaunchApp = launchApp;
-function launchApp() {
-  _origLaunchApp();
-  initParticles();
-  initGlitch();
-  initParallax();
-  setTimeout(updateStatsBanner, 600);
 }
