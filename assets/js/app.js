@@ -517,9 +517,9 @@ function handleBuildFile(input){
     return;
   }
 
-  if(file.size>50*1024*1024){
+  if(file.size>150*1024*1024){
     input.value='';
-    toast('✕ File too large — maximum size is 50 MB.','err');
+    toast('✕ File too large — maximum size is 150 MB.','err');
     return;
   }
 
