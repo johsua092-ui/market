@@ -1059,3 +1059,152 @@ kbd{
   transition:background .2s, transform .15s;
 }
 kbd:hover{background:rgba(0,255,213,.1);transform:scale(1.08)}
+
+/* ════════════════════════════════════════════
+   CONTINUATION v6.1 — Footer · Progress Bar ·
+   Section Counts · Upload Polish
+   ════════════════════════════════════════════ */
+
+/* ── SCROLL PROGRESS BAR ── */
+#scrollProgress{
+  position:fixed;top:0;left:0;height:2px;z-index:9999;
+  background:linear-gradient(90deg,var(--a),var(--v),var(--r));
+  width:0%;
+  transition:width .1s linear;
+  box-shadow:0 0 8px rgba(0,255,213,.6);
+  pointer-events:none;
+}
+
+/* ── SECTION COUNT BADGES ── */
+.sec-count{
+  display:inline-block;
+  font-family:var(--fm);font-size:.6rem;
+  padding:2px 9px;border-radius:4px;
+  background:rgba(0,255,213,.08);
+  border:1px solid rgba(0,255,213,.2);
+  color:var(--a);letter-spacing:.1em;
+  vertical-align:middle;margin-left:10px;
+}
+.sec-count-gold{background:rgba(255,196,50,.08);border-color:rgba(255,196,50,.2);color:var(--gold)}
+.sec-count-green{background:rgba(0,255,136,.08);border-color:rgba(0,255,136,.2);color:var(--g)}
+
+/* ── SITE FOOTER ── */
+.site-footer{
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.4));
+  border-top:1px solid var(--bd);
+  padding:60px 0 0;
+  margin-top:80px;
+  position:relative;
+  overflow:hidden;
+}
+.site-footer::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--a),var(--v),transparent);
+  opacity:.4;
+}
+.sf-inner{
+  display:grid;
+  grid-template-columns:1fr 1.4fr;
+  gap:60px;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 40px 50px;
+  align-items:start;
+}
+.sf-logo{
+  font-family:var(--fh);font-size:1.6rem;font-weight:900;
+  margin-bottom:13px;
+}
+.sf-logo .ox{color:var(--tx)}.sf-logo .yx{color:var(--a)}
+.sf-store{
+  font-family:var(--fm);font-size:.5rem;letter-spacing:.4em;
+  color:var(--t2);margin-left:8px;vertical-align:middle;
+}
+.sf-tagline{
+  font-family:var(--fb);font-size:.88rem;color:var(--t2);
+  line-height:1.8;margin-bottom:20px;
+}
+.sf-socials{display:flex;gap:8px;flex-wrap:wrap}
+.sf-tag{
+  font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;
+  padding:5px 13px;border-radius:4px;cursor:pointer;
+  transition:opacity .2s, transform .2s;
+}
+.sf-tag:hover{opacity:.8;transform:translateY(-2px)}
+.chip-a{background:rgba(0,255,213,.08);border:1px solid rgba(0,255,213,.2);color:var(--a)}
+.chip-v{background:rgba(176,109,255,.08);border:1px solid rgba(176,109,255,.2);color:var(--v)}
+.chip-g{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);color:var(--g)}
+.chip-y{background:rgba(255,196,50,.08);border:1px solid rgba(255,196,50,.2);color:var(--gold)}
+.sf-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.sf-col-title{
+  font-family:var(--fm);font-size:.6rem;letter-spacing:.2em;
+  color:var(--t3);margin-bottom:16px;
+}
+.sf-link{
+  display:block;font-family:var(--fb);font-size:.88rem;
+  color:var(--t2);margin-bottom:10px;cursor:pointer;
+  transition:color .2s, padding-left .2s;
+}
+.sf-link:hover{color:var(--a);padding-left:6px}
+.sf-info{
+  font-family:var(--fm);font-size:.68rem;color:var(--t2);
+  margin-bottom:8px;line-height:1.6;
+}
+.sf-info strong{color:var(--a)}
+.sf-bottom{
+  border-top:1px solid var(--bd);
+  padding:20px 40px;
+  max-width:1100px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.sf-copy{font-family:var(--fm);font-size:.62rem;color:var(--t2);letter-spacing:.08em}
+
+/* ── UPLOAD FORM: price format hint ── */
+.price-hint{
+  font-family:var(--fm);font-size:.62rem;color:var(--a);
+  margin-top:4px;opacity:0;transition:opacity .25s;
+}
+.price-hint.show{opacity:1}
+
+/* ── UPLOAD form: success state on file zone ── */
+.file-drop-zone.success{
+  border-color:var(--g)!important;
+  background:rgba(0,255,136,.04)!important;
+}
+.file-drop-zone.error{
+  border-color:var(--r)!important;
+  background:rgba(255,45,85,.04)!important;
+  animation:shake .4s ease;
+}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* ── FIELD HINT (validation) ── */
+.field-hint{
+  display:flex;align-items:center;gap:5px;
+  animation:hintIn .25s cubic-bezier(.16,1,.3,1);
+}
+@keyframes hintIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── UPLOAD PROGRESS RING ── */
+.upload-progress-wrap{
+  display:none;text-align:center;padding:16px;
+}
+.upload-progress-wrap.show{display:block}
+.up-ring{
+  width:52px;height:52px;margin:0 auto 10px;
+  border:3px solid var(--bd2);border-top-color:var(--a);
+  border-radius:50%;animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.up-msg{font-family:var(--fm);font-size:.7rem;color:var(--a);letter-spacing:.1em}
+
+/* ── TOS row: error state ── */
+.tos-row.tos-err{
+  outline:1px solid var(--r);
+  border-radius:6px;
+  background:rgba(255,45,85,.04);
+}
+
+/* ── RESPONSIVE FOOTER ── */
+@media(max-width:900px){.sf-inner{grid-template-columns:1fr}.sf-cols{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.sf-cols{grid-template-columns:1fr}.sf-bottom{flex-direction:column;gap:8px;text-align:center}}
