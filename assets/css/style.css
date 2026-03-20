@@ -652,20 +652,133 @@ input,textarea,select{-webkit-user-select:text;user-select:text}
 .bcard{background:var(--bg3);border:1px solid var(--bd2);border-radius:var(--rad);transition:transform .25s,box-shadow .25s,border-color .25s}
 .bcard:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(0,255,213,.35);box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 0 1px rgba(0,255,213,.15)}
 
-/* ── GLITCH TEXT EFFECT (hero accent) ── */
-/* glitch removed — replaced with aurora shift */
+/* ════════════════════════════════════
+   ELITE BUILD — complete redesign
+   ════════════════════════════════════ */
+
+/* Reset old override on .h1-accent */
 .h1-accent{
+  color:inherit;
+  text-shadow:none;
+  overflow:visible;
+}
+
+/* ── WRAPPER ── */
+.eb-wrap{
   position:relative;
-  background:linear-gradient(90deg,var(--a),var(--v),#ff6ec7,var(--gold),var(--a));
-  background-size:300% 100%;
+  display:inline-flex;
+  align-items:center;
+  gap:.18em;
+  animation:ebFloat 5s ease-in-out infinite;
+}
+@keyframes ebFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+/* ── MAIN TEXT ── */
+.eb-text{
+  position:relative;
+  background:linear-gradient(
+    110deg,
+    #fff    0%,
+    var(--a) 22%,
+    var(--v) 45%,
+    #ff6ec7  60%,
+    var(--gold) 78%,
+    #fff    100%
+  );
+  background-size:250% 100%;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
   background-clip:text;
-  animation:auroraShift 4s linear infinite, h1FloatY 6s ease-in-out infinite;
-  filter:drop-shadow(0 0 24px rgba(0,255,213,.45));
+  animation:ebSweep 3.5s linear infinite;
+  letter-spacing:.06em;
+  filter:drop-shadow(0 0 28px rgba(0,255,213,.5));
 }
-@keyframes auroraShift{0%{background-position:0% 50%}50%{background-position:150% 50%}100%{background-position:300% 50%}}
-@keyframes h1FloatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes ebSweep{
+  0%  {background-position:200% 0}
+  100%{background-position:-100% 0}
+}
+
+/* ── BRACKETS ── */
+.eb-bracket{
+  font-family:var(--fh);
+  font-weight:900;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  -webkit-background-clip:text;
+  font-size:.85em;
+  opacity:.7;
+  animation:bracketPulse 2.5s ease-in-out infinite;
+}
+.eb-bl{
+  background:linear-gradient(135deg,var(--a),var(--v));
+  animation-delay:0s;
+}
+.eb-br{
+  background:linear-gradient(135deg,var(--v),var(--a));
+  animation-delay:.4s;
+}
+@keyframes bracketPulse{
+  0%,100%{opacity:.5;transform:scaleY(1)}
+  50%{opacity:1;transform:scaleY(1.08)}
+}
+
+/* ── SCAN BEAM that sweeps left→right ── */
+.eb-scan{
+  position:absolute;
+  top:0; left:-8%; bottom:0;
+  width:18%;
+  background:linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,.12) 40%,
+    rgba(0,255,213,.18) 50%,
+    rgba(255,255,255,.12) 60%,
+    transparent 100%
+  );
+  animation:scanBeam 2.8s ease-in-out infinite;
+  pointer-events:none;
+  border-radius:50%;
+  filter:blur(3px);
+}
+@keyframes scanBeam{
+  0%  {left:-20%;opacity:0}
+  10% {opacity:1}
+  90% {opacity:1}
+  100%{left:105%;opacity:0}
+}
+
+/* ── GLOWING UNDERLINE that grows from center ── */
+.eb-underline{
+  position:absolute;
+  bottom:-8px; left:50%;
+  transform:translateX(-50%);
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--a),var(--v),#ff6ec7,transparent);
+  border-radius:2px;
+  animation:ebUnderGrow 3s ease-in-out infinite;
+  box-shadow:0 0 12px var(--a), 0 0 24px rgba(0,255,213,.4);
+}
+@keyframes ebUnderGrow{
+  0%,100%{width:20%;opacity:.4}
+  50%{width:92%;opacity:1}
+}
+
+/* ── AMBIENT GLOW BLOB behind the text ── */
+.eb-glow-blob{
+  position:absolute;
+  inset:-30% -10%;
+  background:
+    radial-gradient(ellipse 60% 55% at 30% 50%, rgba(0,255,213,.1) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 55% at 70% 50%, rgba(176,109,255,.1) 0%, transparent 70%);
+  animation:blobPulse 4s ease-in-out infinite;
+  pointer-events:none;
+  z-index:-1;
+  filter:blur(8px);
+}
+@keyframes blobPulse{
+  0%,100%{opacity:.5;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.08)}
+}
 
 /* ── CURSOR TRAIL GLOW ── */
 #cGlow{transition:none;mix-blend-mode:screen}
@@ -722,19 +835,7 @@ input,textarea,select{-webkit-user-select:text;user-select:text}
 /* ── RESPONSIVE ── */
 @media(max-width:768px){.stats-banner{flex-direction:column;gap:20px;padding:28px 20px}.sb-div{width:80%;height:1px}.faq-q{font-size:.9rem}}
 
-/* ── HERO TITLE — CHAR WAVE + SPARKLES ── */
-/* per-character glow wave */
-.hc{
-  display:inline-block;
-  animation:charWave 2.4s ease-in-out infinite;
-  will-change:transform,filter;
-}
-@keyframes charWave{
-  0%,100%{transform:translateY(0) scale(1);filter:drop-shadow(0 0 6px rgba(0,255,213,.3))}
-  50%{transform:translateY(-8px) scale(1.08);filter:drop-shadow(0 0 22px rgba(176,109,255,.8))}
-}
-
-/* sparkle dots */
+/* sparkle dots (still used by initParticles for hero) */
 .hero-sparkle{
   position:absolute;
   width:5px;height:5px;
@@ -744,22 +845,7 @@ input,textarea,select{-webkit-user-select:text;user-select:text}
   z-index:2;
 }
 @keyframes sparkleOut{
-  0%{opacity:1;transform:scale(0) translateY(0)}
-  40%{opacity:1;transform:scale(1.6) translateY(-12px)}
+  0%  {opacity:1;transform:scale(0) translateY(0)}
+  40% {opacity:1;transform:scale(1.6) translateY(-12px)}
   100%{opacity:0;transform:scale(.4) translateY(-28px)}
 }
-
-/* aurora glow behind the whole hero h1 */
-.hero-h1{
-  position:relative;
-}
-.hero-h1::before{
-  content:'';
-  position:absolute;
-  inset:-20px -30px;
-  background:radial-gradient(ellipse 70% 40% at 50% 60%,rgba(0,255,213,.06),transparent 70%),
-             radial-gradient(ellipse 40% 30% at 30% 50%,rgba(176,109,255,.05),transparent 70%);
-  animation:heroBgPulse 5s ease-in-out infinite;
-  pointer-events:none;z-index:0;border-radius:20px;
-}
-@keyframes heroBgPulse{0%,100%{opacity:.5}50%{opacity:1}}
