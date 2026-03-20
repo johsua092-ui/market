@@ -200,18 +200,24 @@ async function doLogin() {
   if (!u || !pw) { err.textContent = 'Fill in all fields.'; return; }
   err.textContent = 'Connecting...';
   try {
-    /* PocketBase login uses email — we store username separately,
-       so we look up the email by username first */
-    var res = await pb.collection('users').getFirstListItem('username="' + u + '"');
-    await pb.collection('users').authWithPassword(res.email, pw);
+    // PocketBase auth: if input has @ treat as email, else treat as username
+    // PocketBase built-in users collection supports authWithPassword(emailOrUsername, pw)
+    await pb.collection('users').authWithPassword(u, pw);
     CU = pb.authStore.model;
+    // Attach username if not set
+    if (!CU.username) CU.username = CU.email.split('@')[0];
+    if (!CU.role)     CU.role = 'user';
     err.textContent = '';
     launchApp();
   } catch (e) {
-    if (e.status === 400 || e.status === 404) {
-      err.textContent = 'Username or password is incorrect.';
+    // Show the real error so user knows what happened
+    var msg = e.message || '';
+    if (msg.includes('Failed to authenticate') || e.status === 400) {
+      err.textContent = 'Incorrect email/username or password.';
+    } else if (msg.includes('network') || msg.includes('fetch')) {
+      err.textContent = 'Cannot connect to server. Check your PocketBase URL.';
     } else {
-      err.textContent = 'Login failed: ' + e.message;
+      err.textContent = 'Login error: ' + msg;
     }
   }
 }
@@ -228,10 +234,6 @@ async function doRegister() {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { err.textContent = 'Invalid email.'; return; }
   err.textContent = 'Creating account...';
   try {
-    /* Check username taken */
-    var existing = await pb.collection('users').getList(1, 1, { filter: 'username="' + u + '"' });
-    if (existing.totalItems > 0) { err.textContent = 'Username already taken.'; return; }
-
     var role = 'user';
     if (code) {
       try {
@@ -241,18 +243,39 @@ async function doRegister() {
       } catch (ce) { err.textContent = 'Invalid or used staff code.'; return; }
     }
 
-    await pb.collection('users').create({
-      username: u, email: em, password: pw, passwordConfirm: pw, role: role
-    });
-    /* Auto login */
+    // Create user — PocketBase built-in users collection
+    // username and role are custom fields you add in PocketBase dashboard
+    var data = {
+      email: em,
+      password: pw,
+      passwordConfirm: pw
+    };
+    // Add username + role only if the fields exist (won't break if they don't)
+    data.username = u;
+    data.role = role;
+    data.name = u; // PocketBase default field
+
+    await pb.collection('users').create(data);
+    // Auto login after register
     await pb.collection('users').authWithPassword(em, pw);
     CU = pb.authStore.model;
+    if (!CU.username) CU.username = u;
+    if (!CU.role)     CU.role = role;
     err.textContent = '';
-    toast('Account created!', 'ok');
+    toast('Account created! Welcome ' + u, 'ok');
     launchApp();
   } catch (e) {
-    if (e.data && e.data.email) err.textContent = 'Email already registered.';
-    else err.textContent = e.message;
+    var msg = e.message || '';
+    var data = e.data || {};
+    if (data.email) {
+      err.textContent = 'Email already registered.';
+    } else if (data.username) {
+      err.textContent = 'Username already taken.';
+    } else if (msg.includes('network') || msg.includes('fetch')) {
+      err.textContent = 'Cannot connect. Make sure your PocketBase URL is set correctly.';
+    } else {
+      err.textContent = 'Register error: ' + msg;
+    }
   }
 }
 
@@ -270,6 +293,8 @@ async function tryAutoLogin() {
   try {
     await pb.collection('users').authRefresh();
     CU = pb.authStore.model;
+    if (!CU.username) CU.username = CU.email ? CU.email.split('@')[0] : 'user';
+    if (!CU.role)     CU.role = 'user';
     return true;
   } catch (e) {
     pb.authStore.clear();
