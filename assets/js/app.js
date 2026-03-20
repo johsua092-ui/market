@@ -347,7 +347,7 @@ function launchApp(){
   startPing();syncLive();setInterval(syncLive,PING_MS);
   updateNotifDot();applyTicker();
   goTo('home');updateHomeStats();
-  setTimeout(()=>{initReveal();initParticles();initParallax();updateStatsBanner();spawnSparkles();},200);
+  setTimeout(()=>{initReveal();initParticles();initParallax();updateStatsBanner();},200);
 }
 
 /* ── TICKER ── */
@@ -1005,20 +1005,7 @@ function initParticles(){
   }
 }
 
-/* Sparkles for hero area */
-function spawnSparkles(){
-  const hero=document.querySelector('.eb-wrap');
-  if(!hero) return;
-  setInterval(()=>{
-    const s=document.createElement('span');
-    s.className='hero-sparkle';
-    const colors=['var(--a)','var(--v)','#ff6ec7','var(--gold)','var(--g)'];
-    s.style.cssText=`left:${5+Math.random()*90}%;top:${Math.random()*110-10}%;background:${colors[Math.floor(Math.random()*colors.length)]}`;
-    hero.style.position='relative'; hero.style.overflow='visible';
-    hero.appendChild(s);
-    setTimeout(()=>s.remove(),900);
-  },280);
-}
+
 
 /* Mouse parallax on orb */
 function initParallax(){
