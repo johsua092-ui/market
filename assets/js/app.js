@@ -347,7 +347,7 @@ function launchApp(){
   startPing();syncLive();setInterval(syncLive,PING_MS);
   updateNotifDot();applyTicker();
   goTo('home');updateHomeStats();
-  setTimeout(()=>{initReveal();initParticles();initGlitch();initParallax();updateStatsBanner();},200);
+  setTimeout(()=>{initReveal();initParticles();initParallax();updateStatsBanner();initHeroEffects();},200);
 }
 
 /* ── TICKER ── */
@@ -1005,11 +1005,28 @@ function initParticles(){
   }
 }
 
-/* Glitch data-text for h1 */
-function initGlitch(){
+/* Hero text extra effects — letter highlights, sparkles, char anim */
+function initHeroEffects(){
+  /* Wrap each char of h1-accent in a span for staggered glow */
   document.querySelectorAll('.h1-accent').forEach(el=>{
-    if(!el.getAttribute('data-text')) el.setAttribute('data-text',el.textContent);
+    if(el.dataset.inited) return; el.dataset.inited='1';
+    const txt=el.textContent;
+    el.innerHTML=txt.split('').map((c,i)=>
+      c===' '?'&nbsp;':
+      `<span class="hc" style="--ci:${i};animation-delay:${i*0.06}s">${c}</span>`
+    ).join('');
   });
+  /* Spawn sparkles periodically around hero title */
+  const hero=document.querySelector('.hero-h1');
+  if(!hero) return;
+  setInterval(()=>{
+    const s=document.createElement('span');
+    s.className='hero-sparkle';
+    const colors=['var(--a)','var(--v)','#ff6ec7','var(--gold)','var(--g)'];
+    s.style.cssText=`left:${10+Math.random()*80}%;top:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]}`;
+    hero.appendChild(s);
+    setTimeout(()=>s.remove(),900);
+  },220);
 }
 
 /* Mouse parallax on orb */
